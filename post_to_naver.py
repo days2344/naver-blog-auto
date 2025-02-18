@@ -11,17 +11,16 @@ NAVER_BLOG_ID = os.getenv("NAVER_BLOG_ID")
 
 NAVER_BLOG_API_URL = "https://openapi.naver.com/blog/writePost.json"
 
+# 기본 GET 요청 처리 (favicon 요청 방지)
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({"message": "네이버 블로그 자동 포스팅 API입니다."})
 
+# 블로그 글 작성 (POST 요청)
 @app.route("/", methods=["POST"])
 def post_to_naver():
-    """
-    네이버 블로그에 글을 자동으로 게시하는 API
-    """
     try:
-        data = request.json  # 요청으로부터 JSON 데이터 가져오기
+        data = request.json
         title = data.get("title", "제목 없음")
         content = data.get("content", "내용 없음")
 
@@ -31,7 +30,7 @@ def post_to_naver():
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
-        params = {  # 블로그 ID는 URL 파라미터로 추가해야 함
+        params = {
             "blogId": NAVER_BLOG_ID
         }
 
