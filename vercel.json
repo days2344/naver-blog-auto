@@ -13,6 +13,11 @@
       "status": 204
     },
     {
+      "src": "/favicon.png",
+      "headers": { "Content-Type": "image/png" },
+      "status": 204
+    },
+    {
       "src": "/(.*)",
       "dest": "post_to_naver.py"
     }
