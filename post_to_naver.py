@@ -11,6 +11,10 @@ NAVER_BLOG_ID = os.getenv("NAVER_BLOG_ID")
 
 NAVER_BLOG_API_URL = "https://openapi.naver.com/blog/writePost.json"
 
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "네이버 블로그 자동 포스팅 API입니다."})
+
 @app.route("/", methods=["POST"])
 def post_to_naver():
     """
@@ -27,13 +31,16 @@ def post_to_naver():
             "Content-Type": "application/x-www-form-urlencoded"
         }
 
-        payload = {
-            "title": title,
-            "contents": content,
+        params = {  # 블로그 ID는 URL 파라미터로 추가해야 함
             "blogId": NAVER_BLOG_ID
         }
 
-        response = requests.post(NAVER_BLOG_API_URL, headers=headers, data=payload)
+        payload = {
+            "title": title,
+            "contents": content
+        }
+
+        response = requests.post(NAVER_BLOG_API_URL, headers=headers, params=params, data=payload)
         response_data = response.json()
 
         if response.status_code == 200:
@@ -44,6 +51,7 @@ def post_to_naver():
     except Exception as e:
         return jsonify({"message": "서버 오류 발생!", "error": str(e)}), 500
 
-# Vercel에서 실행하기 위한 핸들러 (Flask → Serverless 환경 지원)
-def handler(event, context):
-    return app(event, context)
+# Vercel에서 실행할 수 있도록 Flask 앱을 `app`으로 설정
+if __name__ == "__main__":
+    app.run()
+
