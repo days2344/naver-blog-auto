@@ -11,12 +11,12 @@ NAVER_BLOG_ID = os.getenv("NAVER_BLOG_ID")
 
 NAVER_BLOG_API_URL = "https://openapi.naver.com/blog/writePost.json"
 
-# 기본 GET 요청 처리 (favicon 요청 방지)
+# ✅ GET 요청이 들어오면 기본 메시지를 반환하도록 수정
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({"message": "네이버 블로그 자동 포스팅 API입니다."})
 
-# 블로그 글 작성 (POST 요청)
+# ✅ 블로그 글 작성 (POST 요청만 허용)
 @app.route("/", methods=["POST"])
 def post_to_naver():
     try:
@@ -50,7 +50,6 @@ def post_to_naver():
     except Exception as e:
         return jsonify({"message": "서버 오류 발생!", "error": str(e)}), 500
 
-# Vercel에서 실행할 수 있도록 Flask 앱을 `app`으로 설정
+# ✅ Vercel에서 실행할 수 있도록 Flask 앱을 `app`으로 설정
 if __name__ == "__main__":
     app.run()
-
