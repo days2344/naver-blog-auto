@@ -11,6 +11,5 @@
       "src": "/(.*)",
       "dest": "post_to_naver.py"
     }
-  ],
-  "installCommand": "pip install -r requirements.txt"
+  ]
 }
