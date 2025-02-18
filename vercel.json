@@ -8,6 +8,10 @@
   ],
   "routes": [
     {
+      "src": "/favicon.ico",
+      "status": 404
+    },
+    {
       "src": "/(.*)",
       "dest": "post_to_naver.py"
     }
