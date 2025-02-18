@@ -2,3 +2,7 @@ requests
 flask
 requests
 gunicorn
+fastapi
+flask
+uvicorn
+requests
