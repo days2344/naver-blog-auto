@@ -1,32 +1,21 @@
+from flask import Flask, request, jsonify
 import requests
 
-# 네이버 블로그 API 설정
-CLIENT_ID = "YOUR_NAVER_CLIENT_ID"
-CLIENT_SECRET = "YOUR_NAVER_CLIENT_SECRET"
-BLOG_ID = "YOUR_NAVER_BLOG_ID"
+app = Flask(__name__)
 
-def post_to_naver(title, content):
-    """
-    네이버 블로그에 게시글을 자동으로 올리는 함수
-    """
-    api_url = f"https://openapi.naver.com/blog/writePost.json"
-    headers = {
-        "X-Naver-Client-Id": CLIENT_ID,
-        "X-Naver-Client-Secret": CLIENT_SECRET,
-        "Content-Type": "application/json",
-    }
-    data = {
-        "title": title,
-        "content": content,
-        "blogId": BLOG_ID
-    }
+@app.route("/", methods=["POST"])
+def post_to_naver():
+    data = request.json
+    if not data:
+        return jsonify({"error": "No data received"}), 400
 
-    response = requests.post(api_url, json=data, headers=headers)
-    return response.json()
+    # Naver API로 데이터 전송 (예제)
+    naver_api_url = "https://api.naver.com/your-endpoint"
+    headers = {"Authorization": f"Bearer {data.get('token')}"}
+    response = requests.post(naver_api_url, json=data, headers=headers)
 
-# 테스트용 실행 코드
+    return jsonify(response.json())
+
+# Vercel은 `app` 변수를 자동으로 인식함
 if __name__ == "__main__":
-    test_title = "테스트 제목"
-    test_content = "이것은 자동화된 블로그 포스트입니다."
-    result = post_to_naver(test_title, test_content)
-    print(result)
+    app.run(host="0.0.0.0", port=8080)
